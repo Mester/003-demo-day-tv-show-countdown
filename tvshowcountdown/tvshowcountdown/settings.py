@@ -105,3 +105,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+TRAKT_API_KEY = os.environ.get('TRAKT_API_KEY', False)
