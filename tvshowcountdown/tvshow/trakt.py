@@ -28,5 +28,6 @@ def search(search_term, type='show', year=None):
         result.append({
             'name': i['show']['title'],
             'year': i['show']['year'],
+            'id': i['show']['ids']['trakt'],
             'slug': i['show']['ids']['slug']})
     return result
