@@ -13,10 +13,10 @@ def handle_search(request):
         context["error_message"] = "Can't search with an empty field."
     else:
         # TODO: Get actual results
-        context["search_results"] = [{"name":"matrix", "id":1}, {"name":"mr robot", "id":2}]
+        context["search_results"] = [{"name":"matrix", "year":2005, "slug":"matrix"}, {"name":"mr robot", "year":2015, "slug":"mr-robot"}]
     return render_to_response('index.html', context)
 
-def countdown(request, countdown_id):
+def countdown(request, slug_id):
     context = {}
     # TODO: Get actual time
     context["countdown_timer"] = "7 Days 5 Hours 3 Minutes 56 Seconds"
