@@ -1,8 +1,6 @@
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 
-from datetime import datetime
-
 from . import trakt
 
 def index(request):
@@ -21,7 +19,6 @@ def handle_search(request):
 
 def countdown(request, slug_id):
     context = {}
-    time_now = datetime.now()
     # TODO: Get actual time to next episode
     time_later = trakt.get_next_episode(slug_id)
     if time_later == None:
