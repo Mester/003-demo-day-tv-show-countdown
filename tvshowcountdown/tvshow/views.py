@@ -32,3 +32,5 @@ def countdown(request, slug_id):
         countdown_timer["second"] = time_later.second
         context["countdown_timer"] = countdown_timer
     return render_to_response('index.html', context)
+    
+    
