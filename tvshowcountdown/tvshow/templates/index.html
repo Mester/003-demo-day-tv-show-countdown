@@ -21,7 +21,10 @@
 {% endif %}
 
 {% if countdown_timer %}
-    <p> {{ countdown_timer }} </p>
+    <p> {{ countdown_timer.days }} days, {{ countdown_timer.hours }} hours, {{ countdown_timer.minutes }} minutes and {{ countdown_timer.seconds }} seconds remaining</p> </br>
+    {% if countdown_timer.string_rep %}
+        <p> {{ countdown_timer.string_rep }}</p>
+    {% endif %}
 {% endif %}
 
 {% endblock %}
