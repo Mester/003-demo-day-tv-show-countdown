@@ -7,6 +7,8 @@ headers = {
     'trakt-api-key': settings.TRAKT_API_KEY
 }
 
+TRAKT_URL = 'https://api-v2launch.trakt.tv/'
+
 
 def search(search_term, type='show', year=None):
     '''
@@ -16,7 +18,7 @@ def search(search_term, type='show', year=None):
     :returns: list of results
     '''
 
-    url = 'https://api-v2launch.trakt.tv/search?query={}&type={}'.format(search_term, type)
+    url = TRAKT_URL + 'search?query={}&type={}'.format(search_term, type)
     if year:
         year = int(year)
         url += '&year={}'.format(year)
