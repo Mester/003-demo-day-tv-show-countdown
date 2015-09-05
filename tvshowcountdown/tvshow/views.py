@@ -23,13 +23,16 @@ def countdown(request, slug_id):
     context = {}
     time_now = datetime.now()
     # TODO: Get actual time to next episode
-    time_later = datetime(2015, 9, 13, 23, 33, 56)
-    countdown_timer = {}
-    countdown_timer["year"] = time_later.year
-    countdown_timer["month"] = time_later.month - 1 # Because js counts months from 0
-    countdown_timer["day"] = time_later.day
-    countdown_timer["hour"] = time_later.hour
-    countdown_timer["minute"] = time_later.minute
-    countdown_timer["second"] = time_later.second
-    context["countdown_timer"] = countdown_timer
+    time_later = trakt.get_next_episode(slug_id)
+    if time_later == None:
+        context["error_message"] = "Could not get next episode"
+    else:
+        countdown_timer = {}
+        countdown_timer["year"] = time_later.year
+        countdown_timer["month"] = time_later.month - 1 # Because js counts months from 0
+        countdown_timer["day"] = time_later.day
+        countdown_timer["hour"] = time_later.hour
+        countdown_timer["minute"] = time_later.minute
+        countdown_timer["second"] = time_later.second
+        context["countdown_timer"] = countdown_timer
     return render_to_response('index.html', context)
