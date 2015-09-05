@@ -59,6 +59,7 @@ def get_next_episode(show):
     :returns: a datetime object of the date for the next episode, or None if no next episode
     '''
     # TODO: Implement properly
+    # Use dateutil.parser.parse(datestring) to parse the date format from trakt api
     return datetime(2015, 9, 13, 23, 33, 56)
     
     
