@@ -23,12 +23,13 @@ def countdown(request, slug_id):
     context = {}
     time_now = datetime.now()
     # TODO: Get actual time to next episode
-    time_later = datetime(2015, 9, 10, 23, 33, 56)
-    time_until = time_later - time_now
-    seconds = time_until.seconds
-    minutes, seconds = divmod(seconds, 60)
-    hours, minutes = divmod(minutes, 60)
-    days = time_until.days
-    context["countdown_timer"] = {"days": days, "hours": hours, "minutes": minutes, "seconds": seconds}
-    #context["countdown_timer"]["string_rep"] = str(time_until)
+    time_later = datetime(2015, 9, 13, 23, 33, 56)
+    countdown_timer = {}
+    countdown_timer["year"] = time_later.year
+    countdown_timer["month"] = time_later.month - 1 # Because js counts months from 0
+    countdown_timer["day"] = time_later.day
+    countdown_timer["hour"] = time_later.hour
+    countdown_timer["minute"] = time_later.minute
+    countdown_timer["second"] = time_later.second
+    context["countdown_timer"] = countdown_timer
     return render_to_response('index.html', context)
