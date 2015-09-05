@@ -19,7 +19,6 @@ def handle_search(request):
 
 def countdown(request, slug_id):
     context = {}
-    # TODO: Get actual time to next episode
     time_later = trakt.get_next_episode(slug_id)
     if time_later == None:
         context["error_message"] = "Could not get next episode"
