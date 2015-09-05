@@ -31,3 +31,14 @@ def search(search_term, type='show', year=None):
             'id': i['show']['ids']['trakt'],
             'slug': i['show']['ids']['slug']})
     return result
+
+
+def get_show(show):
+    '''
+    :param str show: (required) show slug or trakt id
+    :returns: details of the show
+    '''
+    url = TRAKT_URL + 'shows/{}'.format(show)
+    r = requests.get(url, headers=headers)
+
+    return r.json()
