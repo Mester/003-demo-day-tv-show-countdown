@@ -7,6 +7,8 @@ headers = {
     'trakt-api-key': settings.TRAKT_API_KEY
 }
 
+TRAKT_URL = 'https://api-v2launch.trakt.tv/'
+
 
 def search(search_term, type='show', year=None):
     '''
@@ -16,7 +18,7 @@ def search(search_term, type='show', year=None):
     :returns: list of results
     '''
 
-    url = 'https://api-v2launch.trakt.tv/search?query={}&type={}'.format(search_term, type)
+    url = TRAKT_URL + 'search?query={}&type={}'.format(search_term, type)
     if year:
         year = int(year)
         url += '&year={}'.format(year)
@@ -26,5 +28,25 @@ def search(search_term, type='show', year=None):
         result.append({
             'name': i['show']['title'],
             'year': i['show']['year'],
+            'id': i['show']['ids']['trakt'],
             'slug': i['show']['ids']['slug']})
+    return result
+
+
+def get_seasons(show):
+    '''
+    :param str show: (required) show slug or trakt id
+    :returns: details of the seasons
+    '''
+    url = TRAKT_URL + 'shows/{}/seasons?extended=full'.format(show)
+    r = requests.get(url, headers=headers)
+    result = []
+    for i in r.json():
+        result.append({
+            'number': i['number'],
+            'id': i['ids']['trakt'],
+            'episode_count': i['episode_count'],
+            'aired_episodes': i['aired_episodes'],
+            })
+
     return result
