@@ -33,12 +33,20 @@ def search(search_term, type='show', year=None):
     return result
 
 
-def get_show(show):
+def get_seasons(show):
     '''
     :param str show: (required) show slug or trakt id
-    :returns: details of the show
+    :returns: details of the seasons
     '''
-    url = TRAKT_URL + 'shows/{}'.format(show)
+    url = TRAKT_URL + 'shows/{}/seasons?extended=full'.format(show)
     r = requests.get(url, headers=headers)
+    result = []
+    for i in r.json():
+        result.append({
+            'number': i['number'],
+            'id': i['ids']['trakt'],
+            'episode_count': i['episode_count'],
+            'aired_episodes': i['aired_episodes'],
+            })
 
-    return r.json()
+    return result
