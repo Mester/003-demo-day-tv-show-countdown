@@ -76,10 +76,22 @@ def get_next_episode(show):
     :param str show: (required) show slug or trakt id
     :returns: the next episode to be aired
     '''
-    episode = None
+    #episode = None
     seasons = get_seasons(show)
     seasons = sorted(seasons, key=lambda x: x['number'])
-    for i in seasons:
+    for season in seasons:
+        last_season_episode = get_episode(show, season['number'], season['episode_count'])
+        time_now = datetime.now(timezone.utc)
+        if last_season_episode == None or dateutil.parser.parse(last_season_episode['first_aired']) < time_now:
+            continue
+        for i in range(1, season['episode_count']):
+            current_episode = get_episode(show, season['number'], i)
+            if dateutil.parser.parse(current_episode['first_aired']) > time_now:
+                return current_episode
+    return None
+        
+        
+    '''
         if i['aired_episodes'] < i['episode_count']:
             episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
             if episode == None:
@@ -90,4 +102,5 @@ def get_next_episode(show):
                 if first_aired < datetime.now(timezone.utc):
                     episode = get_episode(show, i['number'], i['aired_episodes'] + 2)
                     break
+    '''
     return episode
