@@ -53,13 +53,25 @@ def get_seasons(show):
 
     return result
 
+
+def get_episode(show, season, episode):
+    url = TRAKT_URL + 'shows/{}/seasons/{}/episodes/{}?extended=full'.format(
+        show, season, episode)
+    r = requests.get(url, headers=headers)
+    return r.json()
+
+
 def get_next_episode(show):
     '''
     :param str show: (required) show slug or trakt id
     :returns: a datetime object of the date for the next episode, or None if no next episode
     '''
-    # TODO: Implement properly
-    # Use dateutil.parser.parse(datestring) to parse the date format from trakt api
-    return datetime(2015, 9, 13, 23, 33, 56)
-    
-    
+    result = None
+    seasons = get_seasons(show)
+    for i in seasons:
+        if i['aired_episodes'] < i['episode_count']:
+            episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
+            first_aired = episode.get('first_aired')
+            if first_aired is not None:
+                result = dateutil.parser.parse(first_aired)
+    return result
