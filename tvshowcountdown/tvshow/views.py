@@ -23,6 +23,7 @@ def handle_search(request):
 def countdown(request, slug_id):
     context = {}
     episode = trakt.get_next_episode(slug_id)
+    show = trakt.get_show(slug_id)
     if episode['first_aired'] is None:
         context["error_message"] = "Could not get next episode"
     else:
@@ -37,8 +38,9 @@ def countdown(request, slug_id):
         countdown_timer["second"] = time_later.second
         context["countdown_timer"] = countdown_timer
         show_info = {}
-        show_info["title"] = episode["title"]
+        show_info["episode_title"] = episode["title"]
         show_info["season"] = episode["season"]
-        show_info["episode"] = episode["number"]
+        show_info["episode_number"] = episode["number"]
+        show_info["show_title"] = show["title"]
         context["show_info"] = show_info
     return render_to_response('index.html', context)

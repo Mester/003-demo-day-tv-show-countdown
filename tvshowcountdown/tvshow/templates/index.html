@@ -21,8 +21,9 @@
 {% endif %}
 
 {% if show_info %}
-   <h1>{{ show_info.title }}</h1>
-   <p>Season: {{ show_info.season }}; Episode {{ show_info.episode}}
+   <h1>{{ show_info.show_title }}</h1>
+   <p><strong>{{ show_info.episode_title }}</strong></p>
+   <p>Season: {{ show_info.season }}; Episode {{ show_info.episode_number }}</p>
 {% endif %}
 
 {% if countdown_timer %}

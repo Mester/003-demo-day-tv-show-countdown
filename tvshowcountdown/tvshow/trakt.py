@@ -54,6 +54,12 @@ def get_seasons(show):
     return result
 
 
+def get_show(show):
+    url = TRAKT_URL + 'shows/{}'.format(show)
+    r = requests.get(url, headers=headers)
+    return r.json()
+
+
 def get_episode(show, season, episode):
     url = TRAKT_URL + 'shows/{}/seasons/{}/episodes/{}?extended=full'.format(
         show, season, episode)
