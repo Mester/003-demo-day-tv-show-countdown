@@ -1,7 +1,7 @@
 import requests
 from django.conf import settings
 
-from datetime import datetime
+from datetime import datetime, timezone
 import dateutil.parser
 
 headers = {
@@ -64,9 +64,9 @@ def get_episode(show, season, episode):
 def get_next_episode(show):
     '''
     :param str show: (required) show slug or trakt id
-    :returns: a datetime object of the date for the next episode, or None if no next episode
+    :returns: the next episode to be aired
     '''
-    result = None
+    episode = None
     seasons = get_seasons(show)
     seasons = sorted(seasons, key=lambda x: x['number'])
     for i in seasons:
@@ -74,6 +74,8 @@ def get_next_episode(show):
             episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
             first_aired = episode.get('first_aired')
             if first_aired is not None:
-                result = dateutil.parser.parse(first_aired)
-                break
-    return result
+                first_aired = dateutil.parser.parse(first_aired)
+                if first_aired < datetime.now(timezone.utc):
+                    episode = get_episode(show, i['number'], i['aired_episodes'] + 2)
+                    break
+    return episode
