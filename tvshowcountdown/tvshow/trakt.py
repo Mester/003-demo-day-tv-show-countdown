@@ -82,11 +82,19 @@ def get_next_episode(show):
     for season in seasons:
         last_season_episode = get_episode(show, season['number'], season['episode_count'])
         time_now = datetime.now(timezone.utc)
-        if last_season_episode == None or dateutil.parser.parse(last_season_episode['first_aired']) < time_now:
+        try:
+            last_season_episode_time = dateutil.parser.parse(last_season_episode['first_aired'])
+            if last_season_episode_time < time_now:
+                continue
+        except:
             continue
-        for i in range(1, season['episode_count']):
+        for i in range(season['aired_episodes'], season['episode_count'] + 1):
             current_episode = get_episode(show, season['number'], i)
-            if dateutil.parser.parse(current_episode['first_aired']) > time_now:
+            try:
+                current_episode_time = dateutil.parser.parse(current_episode['first_aired'])
+            except:
+                continue
+            if current_episode_time > time_now:
                 return current_episode
     return None
         
