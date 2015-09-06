@@ -68,6 +68,7 @@ def get_next_episode(show):
     '''
     result = None
     seasons = get_seasons(show)
+    seasons = sorted(seasons, key=lambda x: x['number'])
     for i in seasons:
         if i['aired_episodes'] < i['episode_count']:
             episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
