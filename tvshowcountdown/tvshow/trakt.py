@@ -1,6 +1,8 @@
 import requests
 from django.conf import settings
 
+from datetime import datetime
+import dateutil.parser
 
 headers = {
     'trakt-api-version': '2',
@@ -50,3 +52,14 @@ def get_seasons(show):
             })
 
     return result
+
+def get_next_episode(show):
+    '''
+    :param str show: (required) show slug or trakt id
+    :returns: a datetime object of the date for the next episode, or None if no next episode
+    '''
+    # TODO: Implement properly
+    # Use dateutil.parser.parse(datestring) to parse the date format from trakt api
+    return datetime(2015, 9, 13, 23, 33, 56)
+    
+    
