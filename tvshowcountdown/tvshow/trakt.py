@@ -64,6 +64,10 @@ def get_episode(show, season, episode):
     url = TRAKT_URL + 'shows/{}/seasons/{}/episodes/{}?extended=full'.format(
         show, season, episode)
     r = requests.get(url, headers=headers)
+    try:
+        r.raise_for_status()
+    except:
+        return None
     return r.json()
 
 
@@ -78,6 +82,8 @@ def get_next_episode(show):
     for i in seasons:
         if i['aired_episodes'] < i['episode_count']:
             episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
+            if episode == None:
+                continue
             first_aired = episode.get('first_aired')
             if first_aired is not None:
                 first_aired = dateutil.parser.parse(first_aired)

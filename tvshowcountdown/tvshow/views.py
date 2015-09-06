@@ -24,7 +24,7 @@ def countdown(request, slug_id):
     context = {}
     episode = trakt.get_next_episode(slug_id)
     show = trakt.get_show(slug_id)
-    if episode['first_aired'] is None:
+    if episode == None or episode['first_aired'] is None:
         context["error_message"] = "Could not get next episode"
     else:
         timestamp = episode['first_aired']
