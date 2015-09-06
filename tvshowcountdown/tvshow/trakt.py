@@ -1,7 +1,7 @@
 import requests
 from django.conf import settings
 
-from datetime import datetime
+from datetime import datetime, timezone
 import dateutil.parser
 
 headers = {
@@ -53,13 +53,57 @@ def get_seasons(show):
 
     return result
 
+
+def get_show(show):
+    url = TRAKT_URL + 'shows/{}'.format(show)
+    r = requests.get(url, headers=headers)
+    return r.json()
+
+
+def get_episode(show, season, episode):
+    url = TRAKT_URL + 'shows/{}/seasons/{}/episodes/{}?extended=full'.format(
+        show, season, episode)
+    r = requests.get(url, headers=headers)
+    try:
+        r.raise_for_status()
+    except:
+        return None
+    return r.json()
+
+
 def get_next_episode(show):
     '''
     :param str show: (required) show slug or trakt id
-    :returns: a datetime object of the date for the next episode, or None if no next episode
+    :returns: the next episode to be aired
     '''
-    # TODO: Implement properly
-    # Use dateutil.parser.parse(datestring) to parse the date format from trakt api
-    return datetime(2015, 9, 13, 23, 33, 56)
-    
-    
+    #episode = None
+    seasons = get_seasons(show)
+    seasons = sorted(seasons, key=lambda x: x['number'])
+    last_episode = get_episode(show, seasons[-1]['number'], seasons[-1]['episode_count'])
+    time_now = datetime.now(timezone.utc)
+    if last_episode:
+        try:
+            last_episode_time = dateutil.parser.parse(last_episode['first_aired'])
+            if last_episode_time < time_now:
+                return None
+        except:
+            pass
+    for season in seasons:
+        last_season_episode = get_episode(show, season['number'], season['episode_count'])
+
+        try:
+            last_season_episode_time = dateutil.parser.parse(last_season_episode['first_aired'])
+            if last_season_episode_time < time_now:
+                continue
+        except:
+            continue
+        
+        for i in range(season['aired_episodes'], season['episode_count'] + 1):
+            current_episode = get_episode(show, season['number'], i)
+            try:
+                current_episode_time = dateutil.parser.parse(current_episode['first_aired'])
+            except:
+                continue
+            if current_episode_time > time_now:
+                return current_episode
+    return None
