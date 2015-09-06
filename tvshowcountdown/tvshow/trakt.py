@@ -75,4 +75,5 @@ def get_next_episode(show):
             first_aired = episode.get('first_aired')
             if first_aired is not None:
                 result = dateutil.parser.parse(first_aired)
+                break
     return result
