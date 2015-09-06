@@ -79,15 +79,25 @@ def get_next_episode(show):
     #episode = None
     seasons = get_seasons(show)
     seasons = sorted(seasons, key=lambda x: x['number'])
+    last_episode = get_episode(show, seasons[-1]['number'], seasons[-1]['episode_count'])
+    time_now = datetime.now(timezone.utc)
+    if last_episode:
+        try:
+            last_episode_time = dateutil.parser.parse(last_episode['first_aired'])
+            if last_episode_time < time_now:
+                return None
+        except:
+            pass
     for season in seasons:
         last_season_episode = get_episode(show, season['number'], season['episode_count'])
-        time_now = datetime.now(timezone.utc)
+
         try:
             last_season_episode_time = dateutil.parser.parse(last_season_episode['first_aired'])
             if last_season_episode_time < time_now:
                 continue
         except:
             continue
+        
         for i in range(season['aired_episodes'], season['episode_count'] + 1):
             current_episode = get_episode(show, season['number'], i)
             try:
@@ -97,18 +107,3 @@ def get_next_episode(show):
             if current_episode_time > time_now:
                 return current_episode
     return None
-        
-        
-    '''
-        if i['aired_episodes'] < i['episode_count']:
-            episode = get_episode(show, i['number'], i['aired_episodes'] + 1)
-            if episode == None:
-                continue
-            first_aired = episode.get('first_aired')
-            if first_aired is not None:
-                first_aired = dateutil.parser.parse(first_aired)
-                if first_aired < datetime.now(timezone.utc):
-                    episode = get_episode(show, i['number'], i['aired_episodes'] + 2)
-                    break
-    '''
-    return episode
