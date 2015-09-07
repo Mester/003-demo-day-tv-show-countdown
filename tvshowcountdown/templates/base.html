@@ -40,14 +40,14 @@
             </div>
           </div>
         </nav>
-        {% if error_message %}
-          <div class="alert alert-danger"> {{ error_message }} </div>
-        {% endif %}
 
 
         {% block content %}
         {% endblock %}
 
+        {% if error_message %}
+          <div class="alert alert-danger"> {{ error_message }} </div>
+        {% endif %}
       </div>
     </div>
   </body>
