@@ -1,19 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base_search_bar.html' %}
 
 {% block content %}
-<form class="text-center" action="{% url 'tvshow:index' %}" method="get">
-    <div class="row">
-        <div class="form-inline col-md-6 col-md-offset-3">
-            <input name="search_term" type="text" class="form-control" placeholder="Search" value="{{ search_term }}" autofocus>
-            <button type="submit" class="btn btn-default">Search</button>
-        </div>
-    </div>
-</form>
-
-{% if error_message %}
-    <div class="alert alert-danger"> {{ error_message }} </div>
-{% endif %}
-
 {% if search_results %}
   <div class="panel panel-default">
     <div class="panel-heading">Search results</div>
@@ -22,6 +9,7 @@
         <tr>
           <th>Name</th>
           <th>Year</th>
+          <th>Add</th>
         </tr>
       </thead>
       <tbody>
@@ -29,31 +17,12 @@
         <tr>
           <th><a href="{% url 'tvshow:countdown' result.slug %}">{{ result.name }}</a></th>
           <th>{{ result.year }}</th>
+          <th><a href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
         <tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-{% endif %}
-
-{% if show_info %}
-   <h1>{{ show_info.show_title }}</h1>
-   <p><strong>{{ show_info.episode_title }}</strong></p>
-   <p>Season: {{ show_info.season }}; Episode {{ show_info.episode_number }}</p>
-{% endif %}
-
-{% if countdown_timer %}
-    <script src=/static/js/countdown.js></script>
-    <p id="countdown-holder"></p>
-    <script>
-        var clock = document.getElementById("countdown-holder")
-        , targetDate = new Date({{ countdown_timer.year }}, {{ countdown_timer.month }}, {{ countdown_timer.day }}, {{ countdown_timer.hour }}, {{ countdown_timer.minute }}, {{countdown_timer.second }});
- 
-        clock.innerHTML = countdown(targetDate).toString();
-        setInterval(function(){
-          clock.innerHTML = countdown(targetDate).toString();
-        }, 1000);
-    </script>
 {% endif %}
 
 {% endblock %}

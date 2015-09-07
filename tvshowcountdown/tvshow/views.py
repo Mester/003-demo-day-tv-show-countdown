@@ -5,11 +5,13 @@ from . import trakt
 
 import dateutil.parser
 
-def index(request):
+
+def search(request):
     context = {}
     if "search_term" in request.GET:
         return handle_search(request)
     return render_to_response('index.html', context)
+
 
 def handle_search(request):
     context = {}
@@ -43,4 +45,4 @@ def countdown(request, slug_id):
         show_info["episode_number"] = episode["number"]
         show_info["show_title"] = show["title"]
         context["show_info"] = show_info
-    return render_to_response('index.html', context)
+    return render_to_response('info.html', context)
