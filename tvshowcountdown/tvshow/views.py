@@ -6,7 +6,7 @@ from . import trakt
 import dateutil.parser
 
 
-def index(request):
+def search(request):
     context = {}
     if "search_term" in request.GET:
         return handle_search(request)
