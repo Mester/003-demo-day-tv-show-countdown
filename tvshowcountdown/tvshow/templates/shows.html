@@ -1,0 +1,12 @@
+{% extends 'base_search_bar.html' %}
+{% block content %}
+
+{% if shows %}
+  <ul>
+  {% for show in shows %}
+    <li>{{ show }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+{% endblock %}

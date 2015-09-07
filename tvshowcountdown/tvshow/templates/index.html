@@ -1,6 +1,10 @@
 {% extends 'base_search_bar.html' %}
-
 {% block content %}
+
+{% if added_show %}
+  <div class="alert alert-success" role="alert">Added {{ added_show }} to your collection</div>
+{% endif %}
+
 {% if search_results %}
   <div class="panel panel-default">
     <div class="panel-heading">Search results</div>
@@ -17,7 +21,7 @@
         <tr>
           <th><a href="{% url 'tvshow:countdown' result.slug %}">{{ result.name }}</a></th>
           <th>{{ result.year }}</th>
-          <th><a href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
+          <th><a href="{% url 'tvshow:search' %}?search_term={{ search_term }}&add_show={{ result.slug}}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
         <tr>
         {% endfor %}
       </tbody>

@@ -19,6 +19,19 @@ def handle_search(request):
         context["error_message"] = "Can't search with an empty field."
     else:
         context["search_results"] = trakt.search(request.GET["search_term"])
+        context["search_term"] = request.GET["search_term"]
+
+    if request.GET.get("add_show", None) is not None:
+        user_shows = request.session.get("user_shows", None)
+        if user_shows:
+            user_shows = user_shows.split(',')
+            user_shows.append(request.GET["add_show"])
+            user_shows = ','.join(user_shows)
+        else:
+            user_shows = request.GET["add_show"]
+
+        request.session["user_shows"] = user_shows
+        context["added_show"] = request.GET["add_show"]
     return render_to_response('index.html', context)
 
 
@@ -46,3 +59,12 @@ def countdown(request, slug_id):
         show_info["show_title"] = show["title"]
         context["show_info"] = show_info
     return render_to_response('info.html', context)
+
+
+def shows(request):
+    context = {}
+    user_shows = request.session.get("user_shows", None)
+    if user_shows:
+        user_shows = user_shows.split(',')
+        context['shows'] = user_shows
+    return render_to_response('shows.html', context)
