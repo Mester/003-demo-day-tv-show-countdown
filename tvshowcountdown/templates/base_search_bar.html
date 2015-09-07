@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block body %}
 <form class="text-center" action="{% url 'tvshow:search' %}" method="get">
     <div class="row">
         <div class="form-inline col-md-6 col-md-offset-3">
@@ -10,6 +10,4 @@
     </div>
 </form>
 
-{% block body %}
-{% endblock %}
 {% endblock %}
