@@ -18,6 +18,7 @@
         <tr>
           <th>Name</th>
           <th>Year</th>
+          <th>Add</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,7 @@
         <tr>
           <th><a href="{% url 'tvshow:countdown' result.slug %}">{{ result.name }}</a></th>
           <th>{{ result.year }}</th>
+          <th><a href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
         <tr>
         {% endfor %}
       </tbody>
