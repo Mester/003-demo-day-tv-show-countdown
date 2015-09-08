@@ -25,13 +25,17 @@ def handle_search(request):
         user_shows = request.session.get("user_shows", None)
         if user_shows:
             user_shows = user_shows.split(',')
-            user_shows.append(request.GET["add_show"])
+            show_to_add = request.GET["add_show"]
+            if show_to_add not in user_shows:
+                user_shows.append(show_to_add)
+                context["added_show"] = request.GET["add_show"]
+            else:
+                context["already_existing_show"] = show_to_add
             user_shows = ','.join(user_shows)
         else:
             user_shows = request.GET["add_show"]
 
         request.session["user_shows"] = user_shows
-        context["added_show"] = request.GET["add_show"]
     return render_to_response('index.html', context)
 
 
