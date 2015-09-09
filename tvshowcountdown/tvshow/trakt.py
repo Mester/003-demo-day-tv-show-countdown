@@ -55,7 +55,7 @@ def get_seasons(show):
 
 
 def get_show(show):
-    url = TRAKT_URL + 'shows/{}'.format(show)
+    url = TRAKT_URL + 'shows/{}?extended=images'.format(show)
     r = requests.get(url, headers=headers)
     return r.json()
 
