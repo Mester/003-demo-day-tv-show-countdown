@@ -5,7 +5,7 @@
 <h2>Shows in your collection:</h2>
   <ul>
   {% for show in users_shows %}
-    <li>{{ show.title }}</li>
+  <li><a href="{% url 'tvshow:info' show.ids.slug %}">{{ show.title }}</a></li>
   {% endfor %}
   </ul>
 {% endif %}
