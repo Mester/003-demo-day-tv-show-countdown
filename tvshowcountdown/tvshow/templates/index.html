@@ -1,14 +1,6 @@
 {% extends 'base_search_bar.html' %}
 {% block content %}
 
-{% if added_show %}
-  <div class="alert alert-success" role="alert">Added {{ added_show }} to your collection</div>
-{% endif %}
-
-{% if already_existing_show %}
-  <div class="alert alert-warning" role="alert">You already have {{ already_existing_show}} in your collection</div>
-{% endif %}
-
 {% if search_results %}
   <div class="panel panel-default">
     <div class="panel-heading">Search results</div>

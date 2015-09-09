@@ -28,9 +28,9 @@ def handle_search(request):
             show_to_add = request.GET["add_show"]
             if show_to_add not in user_shows:
                 user_shows.append(show_to_add)
-                context["added_show"] = request.GET["add_show"]
+                context["success_message"] = "Added {} to your collection".format(show_to_add)
             else:
-                context["already_existing_show"] = show_to_add
+                context["warning_message"] = "You already have {} in your collection".format(show_to_add)
             user_shows = ','.join(user_shows)
         else:
             user_shows = request.GET["add_show"]
