@@ -2,14 +2,15 @@
 {% block content %}
 
 {% if search_results %}
+  <script src=/static/js/sorttable.js></script>
   <div class="panel panel-default">
     <div class="panel-heading">Search results</div>
-    <table class="table">
+    <table class="table sortable">
       <thead>
         <tr>
           <th>Name</th>
           <th>Year</th>
-          <th>Add</th>
+          <th class="sorttable_nosort">Add</th>
         </tr>
       </thead>
       <tbody>
