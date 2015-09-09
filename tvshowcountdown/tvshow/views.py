@@ -39,7 +39,7 @@ def handle_search(request):
     return render_to_response('index.html', context)
 
 
-def countdown(request, slug_id):
+def info(request, slug_id):
     context = {}
     episode = trakt.get_next_episode(slug_id)
     show = trakt.get_show(slug_id)
