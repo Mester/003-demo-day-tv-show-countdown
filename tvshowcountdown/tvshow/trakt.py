@@ -1,8 +1,12 @@
 import requests
+import requests_cache
+
 from django.conf import settings
 
 from datetime import datetime, timezone
 import dateutil.parser
+
+requests_cache.install_cache()
 
 headers = {
     'trakt-api-version': '2',
