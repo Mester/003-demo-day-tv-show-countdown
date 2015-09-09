@@ -70,5 +70,8 @@ def shows(request):
     user_shows = request.session.get("user_shows", None)
     if user_shows:
         user_shows = user_shows.split(',')
-        context['shows'] = user_shows
+        users_shows = []
+        for show in user_shows:
+            users_shows.append(trakt.get_show(show))
+        context['users_shows'] = users_shows
     return render_to_response('shows.html', context)
