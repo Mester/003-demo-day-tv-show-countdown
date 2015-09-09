@@ -61,7 +61,9 @@ def info(request, slug_id):
         show_info["season"] = episode["season"]
         show_info["episode_number"] = episode["number"]
         show_info["show_title"] = show["title"]
+        show_info["image"] = show["images"]["banner"]["full"]
         context["show_info"] = show_info
+        print(show)
     return render_to_response('info.html', context)
 
 
