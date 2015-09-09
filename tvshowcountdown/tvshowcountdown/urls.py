@@ -1,3 +1,5 @@
+from django.views.generic.base import RedirectView
+
 """tvshowcountdown URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -19,4 +21,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^tvshow/', include('tvshow.urls', namespace="tvshow")),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^.*$', RedirectView.as_view(url='tvshow/', permanent=False))
 ]
