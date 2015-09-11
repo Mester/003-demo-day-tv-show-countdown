@@ -19,7 +19,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^tvshow/', include('tvshow.urls', namespace="tvshow")),
+    url(r'^tvshow/.*', include('tvshow.urls', namespace="tvshow")),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^.*$', RedirectView.as_view(url='tvshow/', permanent=False))
+    url(r'^.*$', RedirectView.as_view(url='^tvshow/', permanent=False))
 ]
