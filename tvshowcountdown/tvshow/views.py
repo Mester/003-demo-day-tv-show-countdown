@@ -22,20 +22,25 @@ def handle_search(request):
         context["search_term"] = request.GET["search_term"]
 
     if request.GET.get("add_show", None) is not None:
+        added = False
         user_shows = request.session.get("user_shows", None)
         if user_shows:
             user_shows = user_shows.split(',')
             show_to_add = request.GET["add_show"]
             if show_to_add not in user_shows:
                 user_shows.append(show_to_add)
-                context["success_message"] = "Added {} to your collection".format(show_to_add)
+                added = show_to_add
             else:
                 context["warning_message"] = "You already have {} in your collection".format(show_to_add)
             user_shows = ','.join(user_shows)
         else:
             user_shows = request.GET["add_show"]
+            added = user_shows
+
 
         request.session["user_shows"] = user_shows
+        if added:
+            context["success_message"] = "Added {} to your collection".format(added)
     return render_to_response('index.html', context)
 
 
